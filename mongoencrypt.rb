@@ -14,6 +14,7 @@ def add_to_db(client, collection, answers)
 
     }
         collection.insert_one(doc)
+        initialisation
 end
 
 
@@ -86,6 +87,7 @@ def review(client, collection, decipher, key, iv)
         plain = decipher.update(decoded) + decipher.final
         data = JSON.parse(plain.to_json)
         puts "This has been found, the stored data for #{user_review_decrypt} is: #{data}"
+        initialisation
     else
         puts "We have been unable to locate this file"
         review(client, collection, decipher, key, iv)
@@ -99,6 +101,7 @@ def delete(client, collection)
     if name_find.count == 1
         name_find.delete_one
         puts "This has been found and deleted, thankyou."
+        initialisation
     else 
         puts "This document has not been found."
         delete(client, collection)
@@ -127,6 +130,7 @@ def updated(client, collection, cipher, key, iv)
     end
         updatedanswers = {new_name: user_update, final_update_encoded: new_encoded}
         result.replace_one(:name => "#{updatedanswers[:new_name]}", :secret_data => "#{updatedanswers[:final_update_encoded]}")
+        initialisation
 end
 
 
